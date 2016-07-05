@@ -1,11 +1,14 @@
 table.table.table-bordered.table-striped
   tr
     th E-mail
+    th Rank
     th.actions Actions
   - @users.each do |user|
     tr  id=("user-#{user.id}" )
       td
         = user.email
       td
+        = User::RANKS.select { |k, v| k == user.rank}.values.join
+      td
         - if current_user.id != user.id
-          = link_to 'Delete', user_path(user), :confirm => 'Are you sure?', :method => :delete
+          = link_to 'Delete', user_path(user), :confirm => 'Are you sure?', :method => :delete if can? :destroy, User
